@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podstrona</title>
+    <style>
+        /* Styl dla wideo jako tła */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: auto; /* Umożliwia przewijanie strony */
+            height: 100%; /* Pełna wysokość */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Dopasowuje wideo do ekranu */
+            z-index: -1; /* Wideo znajduje się pod treścią */
+        }
+        /* Styl dla treści na wierzchu */
+        .content {
+            position: relative;
+            z-index: 1; /* Treść na wierzchu wideo */
+            color: white; /* Kolor tekstu */
+            text-align: center;
+            font-family: Arial, sans-serif;
+            padding-top: 20px;
+            max-width: 80%; /* Ogranicz szerokość tekstu */
+            margin: 0 auto;
+        }
+        /* Styl przycisku */
+        .audio-button {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 2; /* Przycisk na wierzchu wszystkiego */
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+        .audio-button:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+            color: black;
+        }
+
+        /* Styl dla <pre> z większą czcionką */
+        .custom-pre {
+            font-size: 20px; /* Ustaw rozmiar czcionki */
+            font-family: Arial, sans-serif;
+            line-height: 1.5; /* Zwiększa odstępy między wierszami */
+            margin-bottom: 20px;
+            white-space: pre-wrap; /* Zachowuje formatowanie tekstu, w tym nowe linie */
+        }
+
+        /* Styl dla linku */
+        a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            border: 1px solid white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        a:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Styl dla kontenera czatu */
+        .chat-container {
+            margin: 20px;
+            text-align: center;
+        }
+        #userPrompt {
+            width: 90%;
+            height: 100px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        #sendPrompt {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        #responseContainer {
+            margin-top: 20px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <!-- Wideo jako tło -->
+    <video id="backgroundVideo" autoplay loop muted>
+        <source src="sunset-above-the-clouds-sky-timelapse-nature-hd-scene-video-background-loop-1080-publer.io.mp4" type="video/mp4">
+        Twoja przeglądarka nie obsługuje elementu wideo.
+    </video>
+    
+    <!-- Przycisk do odtwarzania dźwięku -->
+    <button class="audio-button" id="audioButton">🔊 Włącz dźwięk</button>
+
+    <!-- Treść na stronie -->
+    <div class="content">
+        <pre class="custom-pre">
+            Wiem, nic nie dzieje się
+            nic nie dane jest na zawsze nam
+            ten ktoś trochę nie wiem gdzie nie uwierzysz lecz to chyba ja.
+            Znów sen o tym samym skończy się nad ranem
+            ani dobry ani zły...
+        </pre>
+        <p>To jest przykładowa podstrona.</p>
+        <a href="index.html">Powrót na stronę główną</a>
+    </div>
+
+    <!-- Kontener czatu -->
+    <div class="chat-container">
+        <label for="userPrompt">Zadaj pytanie:</label><br>
+        <textarea id="userPrompt" placeholder="Wpisz swoje pytanie tutaj..."></textarea><br>
+        <button id="sendPrompt">Wyślij</button>
+    </div>
+    <div id="responseContainer">
+        <h3>Odpowiedź:</h3>
+        <p id="responseText">Tutaj pojawi się odpowiedź...</p>
+    </div>
+
+    <script>
+        // Obsługa przycisku dźwięku
+        const video = document.getElementById('backgroundVideo');
+        const audioButton = document.getElementById('audioButton');
+        
+        audioButton.addEventListener('click', () => {
+            if (video.muted) {
+                video.muted = false;
+                audioButton.textContent = "🔇 Wyłącz dźwięk";
+            } else {
+                video.muted = true;
+                audioButton.textContent = "🔊 Włącz dźwięk";
+            }
+        });
+
+        // Obsługa wysyłania promptów do API
+        document.getElementById('sendPrompt').addEventListener('click', async () => {
+            const prompt = document.getElementById('userPrompt').value;
+
+            if (!prompt) {
+                alert('Pole nie może być puste!');
+                return;
+            }
+
+            try {
+                const response = await fetch('https://api.openai.com/v1/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer YOUR_OPENAI_API_KEY' // Zastąp własnym kluczem API
+                    },
+                    body: JSON.stringify({
+                        model: 'text-davinci-003',
+                        prompt: prompt,
+                        max_tokens: 150
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Błąd podczas komunikacji z API');
+                }
+
+                const data = await response.json();
+                document.getElementById('responseText').innerText = data.choices[0].text.trim();
+            } catch (error) {
+                console.error('Błąd:', error);
+                document.getElementById('responseText').innerText = 'Wystąpił błąd. Spróbuj ponownie.';
+            }
+        });
+    </script>
+</body>
+</html>

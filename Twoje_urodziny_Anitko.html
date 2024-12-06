@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strona urodzinowa dla Anitki :)</title>
+    <style>
+        /* Styl dla formularza */
+        .password-form {
+            margin-top: 20px;
+            text-align: center;
+        }
+        input[type="password"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Wszystkiego najlepszego, Anitko! 🎉</h1>
+        <h2>Życzę Ci samych wspaniałych chwil!</h2>
+
+        <!-- Formularz hasła -->
+        <div class="password-form">
+            <label for="password">Wpisz hasło, aby przejść na podstronę:</label><br><br>
+            <input type="password" id="password" placeholder="Wpisz hasło">
+            <button id="submitPassword">Przejdź</button>
+        </div>
+    </div>
+
+    <script>
+        // Obsługa hasła
+        const submitButton = document.getElementById('submitPassword');
+        const passwordInput = document.getElementById('password');
+
+        submitButton.addEventListener('click', () => {
+            const correctPassword = "urodziny2024"; // Ustaw swoje hasło
+            if (passwordInput.value === correctPassword) {
+                window.location.href = "podstrona.html"; // Przekierowanie na podstronę
+            } else {
+                alert("Niepoprawne hasło! Spróbuj ponownie.");
+                passwordInput.value = ""; // Wyczyść pole hasła
+            }
+        });
+    </script>
+</body>
+</html>

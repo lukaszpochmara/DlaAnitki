@@ -1,11 +1,152 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello World</title>
+    <title>Strona urodzinowa dla Anitki :)🎉</title>
+    <style>
+        /* Styl dla wideo jako tła */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Ukrywa pasek przewijania */
+        }
+        video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Dopasowuje wideo do ekranu */
+            z-index: -1; /* Wideo znajduje się pod treścią */
+        }
+        /* Styl dla treści na wierzchu */
+        .content {
+            position: relative;
+            z-index: 1; /* Treść na wierzchu wideo */
+            color: white; /* Kolor tekstu */
+            text-align: center;
+            font-family: Arial, sans-serif;
+            padding-top: 20%;
+        }
+        /* Styl przycisku */
+        .audio-button {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 2; /* Przycisk na wierzchu wszystkiego */
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+        .audio-button:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+            color: black;
+        }
+        /* Styl formularza hasła */
+        .password-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .password-form input {
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            width: 250px;
+        }
+
+        .password-form button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            width: 250px;
+        }
+
+        .password-form button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello, World!</h1>
+    <!-- Wideo jako tło -->
+    <video id="backgroundVideo" autoplay loop>
+        <source src="myslovitz-trzy-sny-o-tym-samym-official-video-1080-publer.io - Trim1 - Trim.mp4" type="video/mp4">
+        Twoja przeglądarka nie obsługuje elementu wideo.
+    </video>
+    
+    <!-- Przycisk do odtwarzania dźwięku -->
+    <button class="audio-button" id="audioButton">🔇 Wyłącz dźwięk</button>
+    
+    <div class="content">
+        <h1>Wszystkiego najlepszego, Anitko! 🎉</h1>
+
+        <!-- Formularz hasła -->
+        <div class="password-form">
+            <label for="password">Wpisz hasło, aby przejść na podstronę:</label><br><br>
+            <input type="password" id="password" placeholder="Wpisz hasło">
+            <button id="submitPassword">Przejdź</button>
+        </div>
+    </div>
+
+    <script>
+        // Obsługa hasła
+        const submitButton = document.getElementById('submitPassword');
+        const passwordInput = document.getElementById('password');
+
+        // Obsługa kliknięcia przycisku "Przejdź"
+        submitButton.addEventListener('click', () => {
+            const correctPassword = "urodziny2024"; // Ustaw swoje hasło
+            if (passwordInput.value === correctPassword) {
+                window.location.href = "podstrona.html"; // Przekierowanie na podstronę
+            } else {
+                alert("Niepoprawne hasło! Spróbuj ponownie.");
+                passwordInput.value = ""; // Wyczyść pole hasła
+            }
+        });
+
+        // Obsługa naciskania klawisza Enter
+        passwordInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                submitButton.click(); // Symulacja kliknięcia przycisku
+            }
+        });
+    </script>
+
+    <script>
+        const video = document.getElementById('backgroundVideo');
+        const audioButton = document.getElementById('audioButton');
+
+        // Automatyczne odtwarzanie dźwięku, jeśli przeglądarka pozwala
+        video.muted = false;
+        video.play().catch(error => {
+            console.warn("Automatyczne odtwarzanie dźwięku zablokowane przez przeglądarkę:", error);
+        });
+
+        // Obsługa przycisku dźwięku
+        audioButton.addEventListener('click', () => {
+            if (video.muted) {
+                video.muted = false;
+                audioButton.textContent = "🔇 Wyłącz dźwięk";
+            } else {
+                video.muted = true;
+                audioButton.textContent = "🔊 Włącz dźwięk";
+            }
+        });
+    </script>
 </body>
 </html>
