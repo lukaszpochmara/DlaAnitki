@@ -113,24 +113,33 @@
     <div class="content">
         <pre class="custom-pre">
             Wiem, nic nie dzieje się
-            nic nie dane jest na zawsze nam
-            ten ktoś trochę nie wiem gdzie nie uwierzysz lecz to chyba ja.
-            Znów sen o tym samym skończy się nad ranem
-            ani dobry ani zły...
+nic nie dane jest na zawsze nam
+ten ktoś trochę nie wiem gdzie nie uwierzysz lecz to chyba ja.
+Znów sen o tym samym skończy się nad ranem
+ani dobry ani zły...
+Cicho i spokojnie w domu z małym oknem
+chciałbym już z niego wyjść
+To nie serialowy śmiech
+wyuczony tekst
+na próżnoooo.
+i gdy myślisz, że już wiem często właśnie jest za późno...
+Właśnie ten zwrotny punkt trzeba mi zmian
+Fala poniesie mnie tam gdzie będę chciał
+Zmienić wszystko by się nie zmieniło wcale nic
+Zmienić kolor i smak i na głowie stać
+Zmienić tło całkiem tak i kierunek zmian
+Jeśli nie teraz tu to kiedy?
+I jak o tym mówić mam i podzielić się... tym z Tobą?
+Bo jak gdy w półsłowach myśl dzisiaj stała się rozmową?
+Znów sen o tym samym skończy się nad ranem
+ani dobry ani zły...
+Cicho i spokojnie w domu z małym oknem
+chciałbym już z niego wyjść
+Bo to to jest właśnie czas który zmienia mnie na nowo.
+A ja... dla mnie starczy, że jestem teraz tu przy Tobie.
         </pre>
         <p>To jest przykładowa podstrona.</p>
         <a href="index.html">Powrót na stronę główną</a>
-    </div>
-
-    <!-- Kontener czatu -->
-    <div class="chat-container">
-        <label for="userPrompt">Zadaj pytanie:</label><br>
-        <textarea id="userPrompt" placeholder="Wpisz swoje pytanie tutaj..."></textarea><br>
-        <button id="sendPrompt">Wyślij</button>
-    </div>
-    <div id="responseContainer">
-        <h3>Odpowiedź:</h3>
-        <p id="responseText">Tutaj pojawi się odpowiedź...</p>
     </div>
 
     <script>
@@ -145,41 +154,6 @@
             } else {
                 video.muted = true;
                 audioButton.textContent = "🔊 Włącz dźwięk";
-            }
-        });
-
-        // Obsługa wysyłania promptów do API
-        document.getElementById('sendPrompt').addEventListener('click', async () => {
-            const prompt = document.getElementById('userPrompt').value;
-
-            if (!prompt) {
-                alert('Pole nie może być puste!');
-                return;
-            }
-
-            try {
-                const response = await fetch('https://api.openai.com/v1/completions', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer YOUR_OPENAI_API_KEY' // Zastąp własnym kluczem API
-                    },
-                    body: JSON.stringify({
-                        model: 'text-davinci-003',
-                        prompt: prompt,
-                        max_tokens: 150
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error('Błąd podczas komunikacji z API');
-                }
-
-                const data = await response.json();
-                document.getElementById('responseText').innerText = data.choices[0].text.trim();
-            } catch (error) {
-                console.error('Błąd:', error);
-                document.getElementById('responseText').innerText = 'Wystąpił błąd. Spróbuj ponownie.';
             }
         });
     </script>
