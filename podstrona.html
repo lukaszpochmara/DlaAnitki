@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Podstrona</title>
     <style>
-        /* Styl dla wideo jako tła */
         body {
             margin: 0;
             padding: 0;
-            overflow: auto; /* Umożliwia przewijanie strony */
-            height: 100%; /* Pełna wysokość */
+            overflow: auto;
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -22,26 +21,24 @@
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Dopasowuje wideo do ekranu */
-            z-index: -1; /* Wideo znajduje się pod treścią */
+            object-fit: cover;
+            z-index: -1;
         }
-        /* Styl dla treści na wierzchu */
         .content {
             position: relative;
-            z-index: 1; /* Treść na wierzchu wideo */
-            color: white; /* Kolor tekstu */
+            z-index: 1;
+            color: white;
             text-align: center;
             font-family: Arial, sans-serif;
             padding-top: 20px;
-            max-width: 80%; /* Ogranicz szerokość tekstu */
+            max-width: 80%;
             margin: 0 auto;
         }
-        /* Styl przycisku */
         .audio-button {
             position: fixed;
             top: 10px;
             right: 10px;
-            z-index: 2; /* Przycisk na wierzchu wszystkiego */
+            z-index: 2;
             background-color: rgba(0, 0, 0, 0.7);
             color: white;
             border: none;
@@ -54,17 +51,13 @@
             background-color: rgba(255, 255, 255, 0.8);
             color: black;
         }
-
-        /* Styl dla <pre> z większą czcionką */
         .custom-pre {
-            font-size: 20px; /* Ustaw rozmiar czcionki */
+            font-size: 20px;
             font-family: Arial, sans-serif;
-            line-height: 1.5; /* Zwiększa odstępy między wierszami */
+            line-height: 1.5;
             margin-bottom: 20px;
-            white-space: pre-wrap; /* Zachowuje formatowanie tekstu, w tym nowe linie */
+            white-space: pre-wrap;
         }
-
-        /* Styl dla linku */
         a {
             text-decoration: none;
             color: white;
@@ -76,85 +69,66 @@
         a:hover {
             background-color: rgba(255, 255, 255, 0.3);
         }
-
-        /* Styl dla kontenera czatu */
-        .chat-container {
-            margin: 20px;
-            text-align: center;
-        }
-        #userPrompt {
-            width: 90%;
-            height: 100px;
-            font-size: 16px;
-            margin-bottom: 10px;
-        }
-        #sendPrompt {
-            padding: 10px 20px;
-            font-size: 16px;
-        }
-        #responseContainer {
-            margin-top: 20px;
-            text-align: center;
-            font-family: Arial, sans-serif;
-        }
     </style>
 </head>
 <body>
-    <!-- Wideo jako tło -->
     <video id="backgroundVideo" autoplay loop muted>
         <source src="sunset-above-the-clouds-sky-timelapse-nature-hd-scene-video-background-loop-1080-publer.io.mp4" type="video/mp4">
         Twoja przeglądarka nie obsługuje elementu wideo.
     </video>
-    
-    <!-- Przycisk do odtwarzania dźwięku -->
+
     <button class="audio-button" id="audioButton">🔊 Włącz dźwięk</button>
 
-    <!-- Treść na stronie -->
     <div class="content">
-        <pre class="custom-pre">
-            Wiem, nic nie dzieje się
-nic nie dane jest na zawsze nam
-ten ktoś trochę nie wiem gdzie nie uwierzysz lecz to chyba ja.
-Znów sen o tym samym skończy się nad ranem
-ani dobry ani zły...
-Cicho i spokojnie w domu z małym oknem
-chciałbym już z niego wyjść
-To nie serialowy śmiech
-wyuczony tekst
-na próżnoooo.
-i gdy myślisz, że już wiem często właśnie jest za późno...
-Właśnie ten zwrotny punkt trzeba mi zmian
-Fala poniesie mnie tam gdzie będę chciał
-Zmienić wszystko by się nie zmieniło wcale nic
-Zmienić kolor i smak i na głowie stać
-Zmienić tło całkiem tak i kierunek zmian
-Jeśli nie teraz tu to kiedy?
-I jak o tym mówić mam i podzielić się... tym z Tobą?
-Bo jak gdy w półsłowach myśl dzisiaj stała się rozmową?
-Znów sen o tym samym skończy się nad ranem
-ani dobry ani zły...
-Cicho i spokojnie w domu z małym oknem
-chciałbym już z niego wyjść
-Bo to to jest właśnie czas który zmienia mnie na nowo.
-A ja... dla mnie starczy, że jestem teraz tu przy Tobie.</pre>
-        <p>To jest przykładowa podstona.</p>
+        <pre id="textToRead" class="custom-pre">
+Wiem, nic nie dzieje się
+nic nie dane jest na zawsze nam...
+        </pre>
+        <button id="readTextButton">🎤 Czytaj tekst</button>
+        <p>To jest przykładowa podstrona.</p>
         <a href="index.html">Powrót na stronę główną</a>
     </div>
 
     <script>
-        // Obsługa przycisku dźwięku
         const video = document.getElementById('backgroundVideo');
         const audioButton = document.getElementById('audioButton');
-        
+        const readTextButton = document.getElementById('readTextButton');
+        const textToRead = document.getElementById('textToRead');
+    
+        // Obsługa dźwięku
         audioButton.addEventListener('click', () => {
-            if (video.muted) {
-                video.muted = false;
-                audioButton.textContent = "🔇 Wyłącz dźwięk";
+            video.muted = !video.muted;
+            audioButton.textContent = video.muted ? "🔊 Włącz dźwięk" : "🔇 Wyłącz dźwięk";
+        });
+    
+        // Funkcja do czytania tekstu
+        readTextButton.addEventListener('click', () => {
+            const text = textToRead.textContent;
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = "pl-PL"; // Ustaw język na polski
+            utterance.rate = 0.9; // Wolniejsze tempo dla relaksującego efektu
+            utterance.pitch = 0.8; // Niższy ton dla męskiego głosu
+    
+            // Funkcja do uzyskiwania głosu i rozpoczęcia odczytu
+            function getVoiceAndSpeak() {
+                const voices = window.speechSynthesis.getVoices();
+                const maleVoice = voices.find(voice => voice.lang === "pl-PL" && voice.name.toLowerCase().includes("male"));
+                if (maleVoice) {
+                    utterance.voice = maleVoice;
+                }
+    
+                speechSynthesis.speak(utterance);
+            }
+    
+            // Sprawdzanie, czy głosy zostały już załadowane
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = getVoiceAndSpeak;
             } else {
-                video.muted = true;
-                audioButton.textContent = "🔊 Włącz dźwięk";
+                getVoiceAndSpeak();
             }
         });
     </script>
+    
+    
 </body>
 </html>
