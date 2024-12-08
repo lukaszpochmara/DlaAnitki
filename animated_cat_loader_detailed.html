@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Loading Screen</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #d7eef9, #f2f5fc);
+            overflow: hidden;
+        }
+
+        #loading-screen {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .cat {
+            position: absolute;
+            top: 40%;
+            left: -200px;
+            width: 200px;
+            height: auto;
+            background: url('https://easy-peasy.ai/ai-image-generator/images/beautiful-cat-discover-world-felines') no-repeat center/contain;
+            animation: moveCat 5s linear forwards;
+        }
+
+        @keyframes moveCat {
+            from {
+                left: -200px;
+            }
+            to {
+                left: 100vw;
+            }
+        }
+
+        .loading-bar {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 15px;
+            background: #e0e0e0;
+            border-radius: 7px;
+            overflow: hidden;
+        }
+
+        .loading-bar::before {
+            content: '';
+            display: block;
+            width: 0%;
+            height: 100%;
+            background: #1e90ff;
+            animation: loadBar 5s linear forwards;
+        }
+
+        @keyframes loadBar {
+            from {
+                width: 0%;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        /* Dodanie tła dla kota */
+        .cat::before {
+            content: '';
+            position: absolute;
+            top: -20px; /* Dopasowanie pozycji */
+            left: -20px;
+            width: 240px; /* Dopasowanie wymiarów */
+            height: 240px;
+            background: url('https://your-background-image-url.com') no-repeat center/cover;
+            z-index: -1; /* Tło za kotem */
+            border-radius: 50%; /* Okrągłe tło */
+        }
+    </style>
+    <script>
+        // Po zakończeniu animacji przekierowanie na właściwą stronę
+        setTimeout(() => {
+            window.location.href = "index.html"; // Zamień na adres swojej strony
+        }, 5000);
+    </script>
+</head>
+<body>
+    <div id="loading-screen">
+        <div class="cat"></div>
+        <div class="loading-bar"></div>
+    </div>
+</body>
+</html>
