@@ -27,7 +27,7 @@
             left: -200px;
             width: 200px;
             height: auto;
-            background: url('https://easy-peasy.ai/ai-image-generator/images/beautiful-cat-discover-world-felines') no-repeat center/contain;
+            background: url('https://placekitten.com/200/300') no-repeat center/contain; /* Testowy obraz kota */
             animation: moveCat 5s linear forwards;
         }
 
@@ -68,19 +68,6 @@
             to {
                 width: 100%;
             }
-        }
-
-        /* Dodanie tła dla kota */
-        .cat::before {
-            content: '';
-            position: absolute;
-            top: -20px; /* Dopasowanie pozycji */
-            left: -20px;
-            width: 240px; /* Dopasowanie wymiarów */
-            height: 240px;
-            background: url('https://your-background-image-url.com') no-repeat center/cover;
-            z-index: -1; /* Tło za kotem */
-            border-radius: 50%; /* Okrągłe tło */
         }
     </style>
     <script>
